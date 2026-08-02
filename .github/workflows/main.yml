@@ -27,12 +27,15 @@ jobs:
         sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
         pip install buildozer cython
 
-    - name: Use system Android SDK and NDK (skip download)
+    - name: Use system Android SDK and create symlink for sdkmanager
       run: |
         export ANDROID_SDK_ROOT=/usr/local/lib/android/sdk
         export ANDROID_NDK_HOME=/usr/local/lib/android/sdk/ndk/27.3.13750724
-        mkdir -p ~/.buildozer/android/platform
+        mkdir -p ~/.buildozer/android/platform/android-sdk
         ln -sf /usr/local/lib/android/sdk ~/.buildozer/android/platform/android-sdk
+        mkdir -p ~/.buildozer/android/platform/android-sdk/tools/bin
+        ln -sf /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager ~/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager
+        ln -sf /usr/local/lib/android/sdk/cmdline-tools/latest/bin/avdmanager ~/.buildozer/android/platform/android-sdk/tools/bin/avdmanager
         ln -sf /usr/local/lib/android/sdk/ndk/27.3.13750724 ~/.buildozer/android/platform/android-ndk-r27c
         echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
         echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> $GITHUB_ENV
