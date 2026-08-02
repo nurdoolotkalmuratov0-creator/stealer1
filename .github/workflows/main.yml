@@ -29,6 +29,11 @@ jobs:
           pip install buildozer cython
           pip install https://github.com/kivy/pyjnius/archive/master.zip
 
+      - name: Accept Android SDK licenses
+        run: |
+          yes | ~/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager --licenses || true
+          yes | sdkmanager --licenses || true
+
       - name: Build APK
         run: |
           buildozer android debug
